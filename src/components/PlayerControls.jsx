@@ -13,7 +13,6 @@ import { reducerCases } from "../utils/Constants";
 
 const PlayerControls = () => {
   const [{ playerState, token }, dispatch] = useStateProvider();
-  console.log(playerState);
 
   const changeState = async () => {
     const state = playerState ? "pause" : "play";
