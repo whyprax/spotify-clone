@@ -51,6 +51,44 @@ const Body = ({ headerBackground }) => {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
 
+  const playTrack = async (
+    id,
+    name,
+    artists,
+    image,
+    context_uri,
+    track_number
+  ) => {
+    const response = await axios.put(
+      `https://api.spotify.com/v1/me/player/play`,
+      {
+        context_uri,
+        offset: {
+          position: track_number - 1,
+        },
+        position_ms: 0,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.status === 204) {
+      const currentPlaying = {
+        id,
+        name,
+        artists,
+        image,
+      };
+      dispatch({ type: reducerCases.SET_CURRENTPLAYING, currentPlaying });
+      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+    } else {
+      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+    }
+  };
+
   return (
     <Container headerBackground={headerBackground}>
       {selectedPlaylist && (
@@ -98,7 +136,20 @@ const Body = ({ headerBackground }) => {
                   index
                 ) => {
                   return (
-                    <div key={id} className="row">
+                    <div
+                      key={id}
+                      className="row"
+                      onClick={() =>
+                        playTrack(
+                          id,
+                          name,
+                          artists,
+                          image,
+                          context_uri,
+                          track_number
+                        )
+                      }
+                    >
                       <div className="col">
                         <span>{index + 1}</span>
                       </div>
@@ -182,6 +233,7 @@ const Container = styled.div`
       flex-direction: column;
       margin-bottom: 5rem;
       .row {
+        cursor: pointer;
         padding: 0.5rem 1rem;
         display: grid;
         grid-template-columns: 0.3fr 3.1fr 2fr 0.1fr;

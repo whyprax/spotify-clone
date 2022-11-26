@@ -6,6 +6,7 @@ import { useStateProvider } from "../utils/StateProvider";
 
 const CurrentTrack = () => {
   const [{ token, currentPlaying }, dispatch] = useStateProvider();
+  console.log(currentPlaying);
 
   useEffect(() => {
     const getCurrentTrack = async () => {
