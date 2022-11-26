@@ -28,11 +28,19 @@ const Playlists = () => {
     getPlayistData();
   }, [token, dispatch]);
 
+  const changeCurrentPlaylist = (selectedPlaylistID) => {
+    dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistID });
+  };
+
   return (
     <Container>
       <ul>
         {playlists.map(({ name, id }) => {
-          return <li key={id}>{name}</li>;
+          return (
+            <li key={id} onClick={() => changeCurrentPlaylist(id)}>
+              {name}
+            </li>
+          );
         })}
       </ul>
     </Container>
