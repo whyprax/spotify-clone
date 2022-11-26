@@ -47,10 +47,10 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     .logo {
-      text-align: center;
-      margin: 1rem 0;
+      text-align: inherit;
+      margin: 1rem;
       img {
-        max-inline-size: 80%;
+        max-inline-size: 60%;
         block-size: auto;
       }
     }
